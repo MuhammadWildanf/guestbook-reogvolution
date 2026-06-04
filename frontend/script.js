@@ -154,7 +154,7 @@ btnNext.addEventListener("click", async (e) => {
     btnNext.textContent = "Memproses...";
 
     document.getElementById("p1").style.display = "none";
-    document.getElementById("p2").style.display = "block";
+    document.getElementById("p2").style.display = "flex";
 
     showSuccessPopup();
     await submitForm({
@@ -184,9 +184,9 @@ btnNext.addEventListener("click", async (e) => {
    SUBMIT API
 ================================ */
 async function submitForm(payload) {
-  const res = await fetch(
-    "https://guestbook-mejeng-berkilau.vercel.app/submit-form", {
-      // const res = await fetch("http://localhost:3002/submit-form", {
+  // const res = await fetch(
+  //   "https://guestbook-mejeng-berkilau.vercel.app/submit-form", {
+      const res = await fetch("http://localhost:3002/submit-form", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -209,15 +209,19 @@ function showSuccessPopup() {
   width:260px;
   margin:0 auto;
   padding:25px;
-  border-radius:18px;
+  border-radius:20px;
   text-align:center;
-  background:#339E7D;
-  color:#fff;
+  background: rgba(4, 18, 48, 0.9);
+  border: 1px solid #2389d7;
+  box-shadow: inset 0 0 20px rgba(35, 137, 215, 0.5), 0 0 15px rgba(35, 137, 215, 0.5);
+  backdrop-filter: blur(8px);
+  color: #8adaff;
   font-size:20px;
+  font-family: 'Inter', sans-serif;
   font-weight:700;
 ">
-        <div>Terimakasih</div>
-        <div style="margin-top:8px;">Atas Partisipasinya!</div>
+        <div style="font-family: 'CoconPro', sans-serif; font-size: 26px; color: #d4f0ff; letter-spacing: 1px; -webkit-text-stroke: 1px #1c72b8; text-shadow: 0 0 10px rgba(28, 114, 184, 0.8);">Terimakasih</div>
+        <div style="margin-top:10px; font-weight: normal; font-size: 16px;">Atas Partisipasinya!</div>
       </div>
     `,
     background: "transparent",
