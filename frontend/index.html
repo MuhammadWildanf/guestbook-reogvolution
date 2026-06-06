@@ -18,19 +18,19 @@
   <div class="wrapper d-flex flex-column align-items-center">
     
     <!-- Logo -->
-    <div class="container mb-3 mt-4">
+    <div class="container mb-2 mt-3">
       <div class="row px-4 justify-content-center" id="hero-container">
         <img src="Logo_GS2026.png" alt="Logo" class="img-fluid" id="hero" />
       </div>
     </div>
 
-    <div class="container d-flex justify-content-center mt-2">
+    <div class="container d-flex justify-content-center mt-1">
       <div class="p1" id="p1" style="display: block; width: 100%; max-width: 400px;">
         <form id="identity" action="" method="get">
           <div class="pg1" id="pg1" style="display: block">
             
             <!-- Headers -->
-            <div class="text-center mb-4">
+            <div class="text-center mb-3">
               <div class="title">DIGITAL GUESTBOOK</div>
               <div class="subtitle">TUANGKAN PESANMU UNTUK GREBEGSURO 2026</div>
             </div>
@@ -49,7 +49,7 @@
             </div>
 
             <!-- Form: Pesan -->
-            <div class="input-box-container mb-4">
+            <div class="input-box-container mb-3">
               <div class="input-header">PESAN :</div>
               <div class="d-flex align-items-center">
                 <div class="icon-container">
@@ -62,12 +62,12 @@
             </div>
 
             <!-- Pilih Karakter -->
-            <div class="text-center mb-3">
+            <div class="text-center mb-2">
               <div class="tulisan-karakter">PILIH KARAKTER :</div>
             </div>
 
             <!-- Carousel -->
-            <div class="carousel-container mb-4">
+            <div class="carousel-container mb-3">
               <div class="carousel-wrapper">
                 <i id="left" class="fa-solid fa-arrow-left"></i>
                 <ul class="carousel">
@@ -87,7 +87,7 @@
             </div>
 
             <!-- Submit Button -->
-            <div class="button d-flex justify-content-center mt-3 mb-5">
+            <div class="button d-flex justify-content-center mt-2 mb-2">
               <button id="next" class="submit-btn" type="button">KIRIM PESAN</button>
             </div>
             
@@ -123,6 +123,7 @@
       textarea.addEventListener("input", function () {
         this.style.height = "auto";
         this.style.height = this.scrollHeight + "px";
+        adjustScale(); // Recalculate scale when height of text area changes
       });
 
       // --- AUTO SCALE SCRIPT ---
@@ -130,17 +131,25 @@
       // (terutama layar vertikal raksasa seperti 2160x3840).
       function adjustScale() {
         const wrapper = document.querySelector('.wrapper');
-        // Anggap desain dasar Anda dibuat untuk ukuran layar HP (sekitar 450px lebar)
         const targetWidth = 450; 
         const screenWidth = window.innerWidth;
         const screenHeight = window.innerHeight;
 
+        // Reset to default/static properties to accurately measure the natural unscaled height
+        wrapper.style.transform = 'none';
+        wrapper.style.position = 'static';
+        wrapper.style.width = `${targetWidth}px`;
+        wrapper.style.margin = '0 auto';
+
+        // Measure actual content height
+        const targetHeight = wrapper.offsetHeight || 850;
+
         // Hitung skala berdasarkan lebar layar vs lebar target
         let scale = screenWidth / targetWidth;
 
-        // Jika layarnya sangat panjang/tinggi, kita pastikan skala tidak membuat bagian bawah terpotong
-        if (scale * 900 > screenHeight) {
-          scale = screenHeight / 900; 
+        // Jika tinggi ter-skala melebihi tinggi layar, sesuaikan skala agar pas dengan tinggi layar
+        if (scale * targetHeight > screenHeight) {
+          scale = screenHeight / targetHeight; 
         }
 
         // Terapkan efek scale dengan teknik absolute centering agar selalu presisi di tengah
@@ -150,11 +159,17 @@
         wrapper.style.transformOrigin = 'top center';
         wrapper.style.transform = `translateX(-50%) scale(${scale})`;
         
+        // Pusatkan secara vertikal jika layar lebih tinggi daripada konten ter-skala
+        const scaledHeight = scale * targetHeight;
+        if (screenHeight > scaledHeight) {
+          const topOffset = (screenHeight - scaledHeight) / 2;
+          wrapper.style.top = `${topOffset}px`;
+        } else {
+          wrapper.style.top = '0px';
+        }
+        
         // Memaksa body untuk memotong sisa ruang agar background fixed tidak error (overflow)
         document.body.style.overflowX = 'hidden';
-        
-        // Memastikan background hitam di area kosong (opsional jika tinggi berlebih)
-        wrapper.style.marginBottom = `${(scale - 1) * 100}px`;
       }
 
       window.addEventListener('resize', adjustScale);
