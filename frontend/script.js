@@ -184,9 +184,8 @@ btnNext.addEventListener("click", async (e) => {
    SUBMIT API
 ================================ */
 async function submitForm(payload) {
-  // const res = await fetch(
-    "https://guestbook-reogvolution.vercel.app/submit-form", {
-      // const res = await fetch("http://localhost:3002/submit-form", {
+  // const res = await fetch("https://guestbook-reogvolution.vercel.app/submit-form", {
+      const res = await fetch("http://192.168.0.241:3002/submit-form", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
